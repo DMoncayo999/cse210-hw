@@ -6,7 +6,7 @@ class Program
     {
         Journal journal = new Journal();
         PromptGenerator promptGenerator = new PromptGenerator();
-
+        
         // interface for the user
         Console.WriteLine("Welcome to the Journal Program!");
 
@@ -50,7 +50,6 @@ class Program
     {
         string prompt = promptGenerator.GetRandomPrompt();
         Console.WriteLine("Prompt: " + prompt);
-        Console.Write("Your response: ");
         string response = Console.ReadLine();
         Entry newEntry = new Entry(prompt, response, DateTime.Now);
         journal.AddEntry(newEntry);
@@ -60,6 +59,13 @@ class Program
     {
         Console.Write("Enter filename to save journal: ");
         string saveFile = Console.ReadLine();
+
+         // If the user doesn't provide a filename, use the default 'journal.txt'
+        if (string.IsNullOrWhiteSpace(saveFile))
+        {
+            saveFile = "journal.txt";
+        }
+
         journal.SaveToFile(saveFile);
     }
 
