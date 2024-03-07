@@ -60,7 +60,7 @@ class Program
         Console.Write("Enter filename to save journal: ");
         string saveFile = Console.ReadLine();
 
-         // If the user doesn't provide a filename, use the default 'journal.txt'
+        // If the user doesn't provide a filename, use the default 'journal.txt'
         if (string.IsNullOrWhiteSpace(saveFile))
         {
             saveFile = "journal.txt";

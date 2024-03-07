@@ -24,17 +24,23 @@ public class Journal
     }
 
     public void SaveToFile(string filename)
+{
+    try
     {
         using (StreamWriter outputFile = new StreamWriter(filename))
-    {
-        foreach (Entry entry in _entries)
         {
-            outputFile.WriteLine($"{entry._promptText},{entry._entryText},{entry._date}");
+            foreach (Entry entry in _entries)
+            {
+                outputFile.WriteLine($"{entry._promptText},{entry._entryText},{entry._date}");
+            }
         }
+        Console.WriteLine("Journal saved successfully.");
     }
-    Console.WriteLine("Journal saved successfully.");
-    
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error saving journal: {ex.Message}");
     }
+}
 
     public void LoadFromFile (string filename)
     {

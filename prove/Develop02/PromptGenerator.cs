@@ -16,13 +16,13 @@ public class PromptGenerator
             "What was the strongest emotion I felt today?",
             "If I had one thing I could do over today, what would it be?",
             "What was the most unexpected thing that happened today?",
-            "Describe a moment of kindness you witnessed or experienced today",
-            "Reflect on a challenge you encountered today and how you handled it",
-            "Share a goal you accomplished today, no matter how small",
-            "Recall a funny or memorable moment from today",
-            "Think about something you learned today and how it impacted you",
-            "Reflect on a decision you made today and its outcome",
-            "Share something you're grateful for today"
+            "Describe a moment of kindness you witnessed or experienced today.",
+            "Reflect on a challenge you encountered today and how you handled it.",
+            "Share a goal you accomplished today, no matter how small.",
+            "Recall a funny or memorable moment from today.",
+            "Think about something you learned today and how it impacted you.",
+            "Reflect on a decision you made today and its outcome.",
+            "Share something you're grateful for today."
 
         };
     }
