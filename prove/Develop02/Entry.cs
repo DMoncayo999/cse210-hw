@@ -2,11 +2,17 @@ using System;
 
 public class Entry
 {   
-    public string _promptText;
-    public string _entryText;
-    public DateTime _date;
+    public string _promptText {get; set;}
+    public string _entryText {get; set;}
+    public DateTime _date {get; set;}
 
-    //Constructor
+    // Parameterless constructor required for deserialization
+    public Entry()
+    {
+
+    }
+
+    //Constructor for initializing Entry object
     public Entry(string promptText, string entryText, DateTime date)
     {
         _promptText = promptText;

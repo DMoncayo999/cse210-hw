@@ -7,7 +7,7 @@ class Program
         Journal journal = new Journal();
         PromptGenerator promptGenerator = new PromptGenerator();
         
-        // interface for the user
+        // Menu for the user
         Console.WriteLine("Welcome to the Journal Program!");
 
         bool running = true;
@@ -57,22 +57,35 @@ class Program
 
     static void SaveJournal(Journal journal)
     {
-        Console.Write("Enter filename to save journal: ");
+        Console.Write("Enter filename to save journal(without extension): ");
         string saveFile = Console.ReadLine();
 
-        // If the user doesn't provide a filename, use the default 'journal.txt'
+        // If the user doesn't provide a filename, use the default 
         if (string.IsNullOrWhiteSpace(saveFile))
         {
-            saveFile = "journal.txt";
+            saveFile = "remember";
         }
+
+        // Append .json extension
+        saveFile += ".json";
 
         journal.SaveToFile(saveFile);
     }
 
     static void LoadJournal(Journal journal)
     {
-        Console.Write("Enter filename to load journal: ");
+        Console.Write("Enter filename to load journal(without extension): ");
         string loadFile = Console.ReadLine();
+
+        // If the user doesn't provide a filename, use the default 
+        if (string.IsNullOrWhiteSpace(loadFile))
+        {
+            loadFile = "remember";
+        }
+
+        // Append .json extension
+        loadFile += ".json";
+
         journal.LoadFromFile(loadFile);
     }
 }

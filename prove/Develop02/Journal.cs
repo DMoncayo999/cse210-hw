@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 public class Journal
 {
@@ -27,13 +28,20 @@ public class Journal
 {
     try
     {
-        using (StreamWriter outputFile = new StreamWriter(filename))
-        {
-            foreach (Entry entry in _entries)
-            {
-                outputFile.WriteLine($"{entry._promptText},{entry._entryText},{entry._date}");
-            }
-        }
+        // Serialize the entries to JSON with IncludeFields option enabled
+        //var options = new JsonSerializerOptions { IncludeFields = true };
+        string json = JsonSerializer.Serialize(_entries);
+
+        // Print the serialized Json
+        Console.WriteLine("Serialized JSON: " + json);
+
+        //Print the full file path
+        string filePath = filename;
+        Console.WriteLine("Saving journal to: " + filePath);
+
+        // Write the JSON to a file with .json extension
+        File.WriteAllText(filePath, json);
+
         Console.WriteLine("Journal saved successfully.");
     }
     catch (Exception ex)
@@ -42,29 +50,27 @@ public class Journal
     }
 }
 
-    public void LoadFromFile (string filename)
+     public void LoadFromFile(string filename)
     {
-        if (!File.Exists(filename))
+        try
         {
-        Console.WriteLine("File does not exist.");
-        return;
+            if (File.Exists(filename))
+            {
+                // Deserialize JSON with IncludeFields option enabled
+                //var options = new JsonSerializerOptions { IncludeFields = true };
+                string json = File.ReadAllText(filename);
+                _entries = JsonSerializer.Deserialize<List<Entry>>(json);
+
+                Console.WriteLine("Journal loaded successfully.");
+            }
+            else
+            {
+                Console.WriteLine("File does not exist.");
+            }
         }
-
-        _entries.Clear(); // Clear existing entries
-
-        string[] lines = File.ReadAllLines(filename);
-        foreach (string line in lines)
+        catch (Exception ex)
         {
-            string[] parts = line.Split(",");
-            string prompt = parts[0];
-            string response = parts[1];
-            DateTime date = DateTime.Parse(parts[2]);
-            Entry entry = new Entry(prompt, response, date);
-            _entries.Add(entry);
+            Console.WriteLine($"Error loading journal: {ex.Message}");
         }
-
-        Console.WriteLine("Journal loaded successfully.");
-
     }
-
 }
