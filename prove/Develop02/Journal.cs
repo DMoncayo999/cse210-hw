@@ -33,7 +33,7 @@ public class Journal
 
 
         // Write the JSON to a file with .json extension
-        File.WriteAllText(filename + ".json", json);
+        File.WriteAllText(filename, json);
 
         Console.WriteLine("Journal saved successfully.");
     }
