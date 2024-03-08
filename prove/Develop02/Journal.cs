@@ -29,18 +29,11 @@ public class Journal
     try
     {
         // Serialize the entries to JSON with IncludeFields option enabled
-        //var options = new JsonSerializerOptions { IncludeFields = true };
         string json = JsonSerializer.Serialize(_entries);
 
-        // Print the serialized Json
-        Console.WriteLine("Serialized JSON: " + json);
-
-        //Print the full file path
-        string filePath = filename;
-        Console.WriteLine("Saving journal to: " + filePath);
 
         // Write the JSON to a file with .json extension
-        File.WriteAllText(filePath, json);
+        File.WriteAllText(filename + ".json", json);
 
         Console.WriteLine("Journal saved successfully.");
     }
@@ -57,7 +50,6 @@ public class Journal
             if (File.Exists(filename))
             {
                 // Deserialize JSON with IncludeFields option enabled
-                //var options = new JsonSerializerOptions { IncludeFields = true };
                 string json = File.ReadAllText(filename);
                 _entries = JsonSerializer.Deserialize<List<Entry>>(json);
 
