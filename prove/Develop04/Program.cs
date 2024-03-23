@@ -30,6 +30,10 @@ class Program
                     listingActivity.Run();
                     break;
                 case "4":
+                    GoalSettingActivity goalSettingActivity = new GoalSettingActivity("Health");
+                    goalSettingActivity.Run();
+                    break;    
+                case "5":
                     Console.WriteLine("Exiting the program");
                     return;
                 default:
@@ -49,7 +53,8 @@ class Program
         Console.WriteLine("1. Breathing Activity");
         Console.WriteLine("2. Reflecting Activity");
         Console.WriteLine("3. Listing Activity");
-        Console.WriteLine("4. Exit");
+        Console.WriteLine("4. Goal Setting Activity");
+        Console.WriteLine("5. Exit");
         Console.Write("Select a choice from the menu.");
     }
 }
