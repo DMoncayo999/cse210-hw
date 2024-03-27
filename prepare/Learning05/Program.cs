@@ -17,9 +17,8 @@ class Program
         // Iterate through the list of shapes
         foreach (Shape shape in shapes)
         {
-            Console.WriteLine("Shape Color: " + shape.GetColor());
-            Console.WriteLine("Shape Area: " + shape.GetArea());  
-
+            Console.WriteLine($"The {shape.GetColor()} shape has an area of {shape.GetArea()}.");
+            
         }
     }
 }
