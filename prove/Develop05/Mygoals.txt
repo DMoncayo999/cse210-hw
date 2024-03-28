@@ -1,0 +1,3 @@
+SimpleGoal: read scriptures, read one chapter a day, 100, False
+EternalGoal: Pray, pray when i wake up, at lunch, at nigh, 100
+ChecklistGoal: be early, arrive 15 minutes before the Sunday meeting, 100, 0/4, 500
