@@ -1,4 +1,5 @@
 150
 SimpleGoal: Sleep early on Saturday, I need a good rest to go to Church, 100, True
 EternalGoal: Go to the Temple, Drive to the Temple two times a month, 100
-ChecklistGoal: Do exercise, At least wa;lk for 30 minutes every other day, 50, 0, 0, 3
+ChecklistGoal: Do exercise, At least wa;lk for 30 minutes every other day, 50, 0, 0, 0
+EternalGoal: Pray more frequenly, Dedicate more time to pray, 100

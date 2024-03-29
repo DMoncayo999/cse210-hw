@@ -12,7 +12,7 @@ public class ChecklistGoal : Goal
     // Constructor
     public ChecklistGoal(string name, string description, int points, int target, int bonus, bool isComplete) : base(name, description, points)
     {
-        _amountCompleted = isComplete ? target : 0; // Assuming if isComplete is true, set amountCompleted to target
+        _amountCompleted = isComplete ? target : 0; // If isComplete is true, set amountCompleted to target
         _target = target;
         _bonus = bonus;
     }

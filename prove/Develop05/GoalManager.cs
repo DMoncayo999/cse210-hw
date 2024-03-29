@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 
-
 public class GoalManager
 {
     private List<Goal> _goals;
@@ -24,8 +23,6 @@ public class GoalManager
     
     public void Start()
     {
-        
-
         while (true)
         {
             DisplayPlayerInfo();
@@ -88,7 +85,7 @@ public class GoalManager
             return;
         }
 
-        // Logic to create a new goal based on the selected type
+        // Create a new goal based on the selected type
         switch (choice)
         {
             case 1:
