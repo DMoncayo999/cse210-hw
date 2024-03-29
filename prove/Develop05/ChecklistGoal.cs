@@ -10,13 +10,12 @@ public class ChecklistGoal : Goal
     public int _bonus;
 
     // Constructor
-    public ChecklistGoal(string name, string description, int points, int target, int bonus) : base(name, description, points)
+    public ChecklistGoal(string name, string description, int points, int target, int bonus, bool isComplete) : base(name, description, points)
     {
-    _amountCompleted = 0;
+    _amountCompleted = isComplete ? target : 0; // Assuming if isComplete is true, set amountCompleted to target
     _target = target;
     _bonus = bonus;
     }
-
     // Methods
     public override void RecordEvent()
     {
@@ -43,7 +42,7 @@ public class ChecklistGoal : Goal
 
     public override string GetStringRepresentation()
     {
-         return $"ChecklistGoal: {_shortName}, {_description}, {_points}, {_amountCompleted}/{_target}, {_bonus}";
+         return $"ChecklistGoal: {_shortName}, {_description}, {_points}, {_amountCompleted}, {_target}, {_bonus}";
     }
 }
 

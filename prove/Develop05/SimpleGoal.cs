@@ -9,9 +9,9 @@ public class SimpleGoal : Goal
     
     // Cosntructor
 
-   public SimpleGoal(string name, string description, int points) : base(name, description, points)
+   public SimpleGoal(string name, string description, int points, bool isComplete) : base(name, description, points)
     {
-    _isComplete = false; // Default value
+    _isComplete = isComplete;
     }
 
     // Methods

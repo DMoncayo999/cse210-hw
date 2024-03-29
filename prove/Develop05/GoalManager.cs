@@ -205,18 +205,31 @@ public class GoalManager
             Console.WriteLine("Goal not found.");
         }
     }
-
     public void ListGoalDetails()
-    {
-    Console.WriteLine("Your goals are: ");
+{
+    Console.WriteLine("Goals:");
 
+    if (_goals.Count == 0)
+    {
+        Console.WriteLine("No goals available."); // Display message if no goals are available
+        return;
+    }
+
+    // Display goals if available
     for (int i = 0; i < _goals.Count; i++)
     {
         string checkbox = _goals[i].IsComplete() ? "[X]" : "[ ]";
-        string completedStatus = _goals[i] is ChecklistGoal checklistGoal ? $" --- Currently completed: {checklistGoal._amountCompleted}/{checklistGoal._target}" : "";
-        Console.WriteLine($"{i + 1}. {checkbox} {_goals[i]._shortName} ({_goals[i]._description}){completedStatus}");
+        string goalInfo = $"{i + 1}. {checkbox} {_goals[i]._shortName.Trim()} ({_goals[i]._description.Trim()})";
+
+        if (_goals[i] is ChecklistGoal checklistGoal)
+        {
+            string completedStatus = $" --- Currently completed: {checklistGoal._amountCompleted}/{checklistGoal._target}";
+            goalInfo += completedStatus.PadLeft(Math.Max(0, 35 - goalInfo.Length)); // Adjust the spacing as needed
+        }
+
+        Console.WriteLine(goalInfo);
     }
-    }
+}
 
     public void SaveGoals()
     {
@@ -233,20 +246,19 @@ public class GoalManager
         Console.WriteLine("Goals saved successfully.");
     }
 
-    public void LoadGoals()
+    
+   public void LoadGoals()
     {
-    Console.Write("Enter file path to load goals from: ");
-    string filePath = Console.ReadLine();
+        Console.Write("Enter file path to load goals from: ");
+        string filePath = Console.ReadLine();
 
-    try
-    {
-        _goals.Clear();
-        using (StreamReader reader = new StreamReader(filePath))
+        try
         {
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            _goals.Clear();
+            string[] lines = File.ReadAllLines(filePath);
+
+            foreach (string line in lines)
             {
-                // Split the line based on the colon to get the type of the object and its details
                 string[] parts = line.Split(':');
 
                 if (parts.Length >= 2)
@@ -254,7 +266,7 @@ public class GoalManager
                     string type = parts[0];
                     string details = parts[1];
 
-                    // Create the appropriate goal object based on the type
+                    // Call the CreateGoalFromString method to create the appropriate goal
                     Goal goal = CreateGoalFromString(type, details);
 
                     if (goal != null)
@@ -271,9 +283,9 @@ public class GoalManager
                     Console.WriteLine($"Invalid line format: {line}");
                 }
             }
+
+            Console.WriteLine("Goals loaded successfully.");
         }
-        Console.WriteLine("Goals loaded successfully.");
-    }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading goals: {ex.Message}");
@@ -281,36 +293,56 @@ public class GoalManager
     }
 
     private Goal CreateGoalFromString(string type, string details)
-    {
+{
     string[] parts = details.Split(',');
 
-    if (parts.Length < 4)
+    if (parts.Length < 3)
     {
         Console.WriteLine($"Invalid details format for goal: {details}");
         return null;
     }
 
-    string name = parts[0];
-    string description = parts[1];
+    string name = parts[0].Trim();
+    string description = parts[1].Trim();
     int points;
-    int.TryParse(parts[2], out points);
-    bool isComplete = parts[3].Trim() == "[X]"; 
+    if (!int.TryParse(parts[2].Trim(), out points))
+    {
+        Console.WriteLine($"Invalid points format for goal: {details}");
+        return null;
+    }
 
+    // Check if type is EternalGoal
+    if (type == "EternalGoal")
+    {
+        return new EternalGoal(name, description, points);
+    }
+
+    // Handle other goal types if needed
     switch (type)
-        {
+    {
         case "SimpleGoal":
+            bool isComplete = parts[3].Trim().Equals("True", StringComparison.OrdinalIgnoreCase); // Convert string to boolean
             return new SimpleGoal(name, description, points, isComplete);
-        case "EternalGoal":
-            return new EternalGoal(name, description, points);
+
         case "ChecklistGoal":
             int target;
-            int.TryParse(parts[4], out target);
+            if (!int.TryParse(parts[3].Trim(), out target))
+            {
+                Console.WriteLine($"Invalid target format for goal: {details}");
+                return null;
+            }
             int bonus;
-            int.TryParse(parts[5], out bonus);
-            return new ChecklistGoal(name, description, points, target, bonus, isComplete);
+            if (!int.TryParse(parts[4].Trim(), out bonus))
+            {
+                Console.WriteLine($"Invalid bonus format for goal: {details}");
+                return null;
+            }
+            bool isGoalComplete = parts[5].Trim().Equals("True", StringComparison.OrdinalIgnoreCase); // Convert string to boolean
+            return new ChecklistGoal(name, description, points, target, bonus, isGoalComplete);
+
         default:
             Console.WriteLine($"Unknown goal type: {type}");
-            return null;
-        }
-    }
+            return null; // Add a default return statement
+      }
+   }
 }
