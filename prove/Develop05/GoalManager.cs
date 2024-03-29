@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 
+
 public class GoalManager
 {
     private List<Goal> _goals;
@@ -18,15 +19,17 @@ public class GoalManager
     // Methods
         public void DisplayPlayerInfo()
     {
-        Console.WriteLine($"You have: {_score} points");
+        Console.WriteLine($"\nYou have: {_score} points");
     }
     
     public void Start()
     {
-        DisplayPlayerInfo();
+        
 
         while (true)
         {
+            DisplayPlayerInfo();
+
             Console.WriteLine("\nMenu:");
             Console.WriteLine("1. Create new goal");
             Console.WriteLine("2. List goals");
@@ -35,7 +38,7 @@ public class GoalManager
             Console.WriteLine("5. Record event");
             Console.WriteLine("6. Quit");
 
-            Console.Write("Enter your choice: ");
+            Console.Write("Select a choice from the menu: ");
             int choice;
             if (!int.TryParse(Console.ReadLine(), out choice))
             {
@@ -180,34 +183,33 @@ public class GoalManager
 }
 
     public void RecordEvent()
+{
+    ListGoalsForRecordingEvent();
+
+    Console.Write("Which goal did you acomplish? ");
+    int selectedGoalIndex;
+    if (int.TryParse(Console.ReadLine(), out selectedGoalIndex))
     {
-        Console.WriteLine("\nRecording an event:");
-
-        ListGoalDetails();
-
-        Console.Write("Enter the name of the goal to record event for: ");
-        string goalName = Console.ReadLine();
-
-        RecordEvent(goalName);
-    }
-
-    public void RecordEvent(string goalName)
-    {
-        Goal goal = _goals.Find(g => g._shortName == goalName);
-        if (goal != null)
+        if (selectedGoalIndex >= 1 && selectedGoalIndex <= _goals.Count)
         {
-            goal.RecordEvent();
-            _score += goal._points;
-            Console.WriteLine($"Event recorded for {goalName}. You gained {goal._points} points.");
+            Goal selectedGoal = _goals[selectedGoalIndex - 1];
+            selectedGoal.RecordEvent();
+            _score += selectedGoal._points;
+            Console.WriteLine($"Congratulations! You gained {selectedGoal._points} points.");
         }
         else
         {
-            Console.WriteLine("Goal not found.");
+            Console.WriteLine("Invalid goal number.");
         }
     }
-    public void ListGoalDetails()
-{
-    Console.WriteLine("Goals:");
+    else
+    {
+        Console.WriteLine("Invalid input. Please enter a valid goal number.");
+    }
+    }
+     
+    public void ListGoalsForRecordingEvent()
+    {
 
     if (_goals.Count == 0)
     {
@@ -215,6 +217,22 @@ public class GoalManager
         return;
     }
 
+    // Display goals if available
+    for (int i = 0; i < _goals.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {_goals[i]._shortName}");
+    }
+    }
+   
+    public void ListGoalDetails()
+    {
+    Console.WriteLine("Your goals are:");
+
+    if (_goals.Count == 0)
+    {
+        Console.WriteLine("No goals available."); // Display message if no goals are available
+        return;
+    }
     // Display goals if available
     for (int i = 0; i < _goals.Count; i++)
     {
@@ -229,15 +247,18 @@ public class GoalManager
 
         Console.WriteLine(goalInfo);
     }
-}
+    }
 
     public void SaveGoals()
     {
-        Console.Write("Enter file path to save goals: ");
+        Console.Write("Enter filename to save goals: ");
         string filePath = Console.ReadLine();
 
         using (StreamWriter writer = new StreamWriter(filePath))
         {
+             // Save player's score as the first line
+            writer.WriteLine(_score);
+
             foreach (Goal goal in _goals)
             {
                 writer.WriteLine(goal.GetStringRepresentation());
@@ -249,48 +270,63 @@ public class GoalManager
     
    public void LoadGoals()
     {
-        Console.Write("Enter file path to load goals from: ");
-        string filePath = Console.ReadLine();
+    Console.Write("Enter the filename to load goals from: ");
+    string filePath = Console.ReadLine();
 
-        try
+    try
+    {
+        _goals.Clear();
+        
+        // Read all lines from the file
+        string[] allLines = File.ReadAllLines(filePath);
+        
+        // Read the first line to get the player's score
+        if (allLines.Length > 0 && int.TryParse(allLines[0], out int loadedScore))
         {
-            _goals.Clear();
-            string[] lines = File.ReadAllLines(filePath);
+            _score = loadedScore; // Set the loaded score to the player's score
+        }
+        else
+        {
+            Console.WriteLine("Invalid player's score format.");
+            return;
+        }
 
-            foreach (string line in lines)
+        // Process goal lines starting from index 1
+        for (int i = 1; i < allLines.Length; i++)
+        {
+            string line = allLines[i];
+            string[] parts = line.Split(':');
+
+            if (parts.Length >= 2)
             {
-                string[] parts = line.Split(':');
+                string type = parts[0];
+                string details = parts[1];
 
-                if (parts.Length >= 2)
+                // Call the CreateGoalFromString method to create the appropriate goal
+                Goal goal = CreateGoalFromString(type, details);
+
+                if (goal != null)
                 {
-                    string type = parts[0];
-                    string details = parts[1];
-
-                    // Call the CreateGoalFromString method to create the appropriate goal
-                    Goal goal = CreateGoalFromString(type, details);
-
-                    if (goal != null)
-                    {
-                        _goals.Add(goal);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Unknown goal type: {type}");
-                    }
+                    _goals.Add(goal);
                 }
                 else
                 {
-                    Console.WriteLine($"Invalid line format: {line}");
+                    Console.WriteLine($"Unknown goal type: {type}");
                 }
             }
+            else
+            {
+                Console.WriteLine($"Invalid line format: {line}");
+            }
+        }
 
-            Console.WriteLine("Goals loaded successfully.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading goals: {ex.Message}");
-        }
+        Console.WriteLine("Goals loaded successfully.");
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error loading goals: {ex.Message}");
+    }
+}
 
     private Goal CreateGoalFromString(string type, string details)
 {
@@ -345,4 +381,4 @@ public class GoalManager
             return null; // Add a default return statement
       }
    }
-}
+}   
