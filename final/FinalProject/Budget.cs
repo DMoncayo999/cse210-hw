@@ -16,6 +16,29 @@ public class Budget
         _endDate = endDate;
     }
 
+    // Getter for Name
+    public string GetName()
+    {
+        return _name;
+    }
+
+    // Getter for TotalAmount
+    public decimal GetTotalAmount()
+    {
+        return _totalAmount;
+    }
+
+    // Getter for StartDate
+    public DateTime GetStartDate()
+    {
+        return _startDate;
+    }
+
+    // Getter for EndDate
+    public DateTime GetEndDate()
+    {
+        return _endDate;
+    }
     // Calculate remaining budget amount
     public decimal CalculateRemainingBudget()
     {

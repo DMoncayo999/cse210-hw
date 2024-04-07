@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 class FileManager
 {
-    private string filePath;
+    private string _filePath;
 
     public FileManager(string filePath)
     {
-        this.filePath = filePath;
+        _filePath = filePath;
     }
 
     public List<string[]> ReadFromFile()
@@ -17,7 +18,7 @@ class FileManager
 
         try
         {
-            using (StreamReader reader = new StreamReader(filePath))
+            using (StreamReader reader = new StreamReader(_filePath))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -39,7 +40,7 @@ class FileManager
     {
         try
         {
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (StreamWriter writer = new StreamWriter(_filePath))
             {
                 foreach (string[] values in data)
                 {
@@ -51,6 +52,22 @@ class FileManager
         catch (Exception ex)
         {
             Console.WriteLine("Error writing to file: " + ex.Message);
+        }
+    }
+
+    // Save report to file
+    public void SaveReport(string reportContent)
+    {
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(_filePath))
+            {
+                writer.WriteLine(reportContent);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error saving report: " + ex.Message);
         }
     }
 }
