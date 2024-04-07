@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class Expense
 {
@@ -17,29 +18,32 @@ public class Expense
         _category = category;  
         _isIncome = isIncome;  
     }
-public void AddExpense(decimal amount)
+     public void AddExpense(decimal amount)
     {
         _amount += amount;
     }
 
-    // CalculateTotalExpenses method
-    public static decimal CalculateTotalExpenses(List<Expense> expenses)
+    public decimal Amount
     {
-        decimal total = 0;
-        foreach (Expense expense in expenses)
-        {
-            total += expense._amount;
-        }
-        return total;
+        get { return _amount; }
+        set { _amount = value; }
     }
 
-    // FormatExpenseForDisplay method
     public string FormatExpenseForDisplay()
     {
         return $"Description: {_description}\nAmount: {_amount:C}\nDate: {_date.ToShortDateString()}\nCategory: {_category}\nIs Income: {_isIncome}";
     }
 
-    // FilterExpensesByDateRange method
+    public static decimal CalculateTotalExpenses(List<Expense> expenses)
+    {
+        decimal total = 0;
+        foreach (Expense expense in expenses)
+        {
+            total += expense.Amount;
+        }
+        return total;
+    }
+
     public static List<Expense> FilterExpensesByDateRange(List<Expense> expenses, DateTime startDate, DateTime endDate)
     {
         List<Expense> filteredExpenses = new List<Expense>();
@@ -53,7 +57,6 @@ public void AddExpense(decimal amount)
         return filteredExpenses;
     }
 
-    // SortExpensesByAmount method
     public static void SortExpensesByAmount(List<Expense> expenses)
     {
         expenses.Sort((x, y) => x._amount.CompareTo(y._amount));

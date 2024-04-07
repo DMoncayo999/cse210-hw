@@ -5,8 +5,8 @@ public class FixedExpense : Expense
     protected bool _recurring;
 
     // Constructor for FixedExpense
-    public FixedExpense(string description, decimal amount, DateTime date, string category, bool isIncome, bool recurring)
-        : base(description, amount, date, category, isIncome)
+    public FixedExpense(string description, decimal amount, DateTime date, string category, bool recurring)
+        : base(description, amount, date, category, false) // Set isIncome to false by default
     {
         _recurring = recurring;
     }
