@@ -40,9 +40,8 @@ class Program
             Console.WriteLine("3. Add Fixed Expense");
             Console.WriteLine("4. Add Recurring Income");
             Console.WriteLine("5. View Categories");
-            Console.WriteLine("6. View Budgets");
-            Console.WriteLine("7. View Report");
-            Console.WriteLine("8. Exit");
+            Console.WriteLine("6. View Report");
+            Console.WriteLine("7. Exit");
 
             Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
@@ -66,7 +65,7 @@ class Program
                     break;
                 case "6":
                     ViewReport();
-                break;
+                    break;
                 case "7":
                     exit = true;
                     Console.WriteLine("Exiting...");
