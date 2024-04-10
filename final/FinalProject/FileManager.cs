@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-class FileManager
+public class FileManager
 {
-    private string _filePath;
+    private string _fileName;
 
-    public FileManager(string filePath)
+    public FileManager(string fileName)
     {
-        _filePath = filePath;
+        _fileName = fileName;
     }
 
     public List<string[]> ReadFromFile()
@@ -18,7 +17,7 @@ class FileManager
 
         try
         {
-            using (StreamReader reader = new StreamReader(_filePath))
+            using (StreamReader reader = new StreamReader(_fileName))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -40,7 +39,7 @@ class FileManager
     {
         try
         {
-            using (StreamWriter writer = new StreamWriter(_filePath))
+            using (StreamWriter writer = new StreamWriter(_fileName))
             {
                 foreach (string[] values in data)
                 {
@@ -58,9 +57,9 @@ class FileManager
     // Save report to file
     public void SaveReport(string reportContent)
     {
-        try
+    try
         {
-            using (StreamWriter writer = new StreamWriter(_filePath))
+            using (StreamWriter writer = new StreamWriter(_fileName, true)) // Append content to the existing file
             {
                 writer.WriteLine(reportContent);
             }
@@ -68,6 +67,27 @@ class FileManager
         catch (Exception ex)
         {
             Console.WriteLine("Error saving report: " + ex.Message);
+        }
+    }
+
+    // Load report from file
+    public string LoadReport()
+    {
+        try
+        {
+            if (File.Exists(_fileName))
+            {
+                return File.ReadAllText(_fileName);
+            }
+            else
+            {
+                return "No data available.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error loading report: " + ex.Message);
+            return "Error loading report.";
         }
     }
 }
