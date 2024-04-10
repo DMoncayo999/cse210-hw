@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 public class Income : Expense
 {
@@ -11,22 +12,17 @@ public class Income : Expense
         _frequency = frequency;
     }
 
-    // Method to get the frequency
-    public string GetFrequency()
+    // Getter for Frequency
+    public string Frequency
     {
-        return _frequency;
+        get { return _frequency; }
+        set { _frequency = value; }
     }
 
-    // Method to set the frequency
-    public void SetFrequency(string frequency)
-    {
-        _frequency = frequency;
-    }
-    
     // Method to add income
     public void AddIncome(decimal amount)
     {
         _amount += amount;
-    } 
+    }
 
 }

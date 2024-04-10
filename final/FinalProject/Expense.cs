@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class Expense
 {
@@ -18,9 +19,11 @@ public class Expense
         _category = category;  
         _isIncome = isIncome;  
     }
-     public void AddExpense(decimal amount)
+    
+    public string Description
     {
-        _amount += amount;
+        get { return _description; }
+        set { _description = value; }
     }
 
     public decimal Amount
@@ -29,36 +32,26 @@ public class Expense
         set { _amount = value; }
     }
 
-    public string FormatExpenseForDisplay()
+    public DateTime Date
     {
-        return $"Description: {_description}\nAmount: {_amount:C}\nDate: {_date.ToShortDateString()}\nCategory: {_category}\nIs Income: {_isIncome}";
+        get { return _date; }
+        set { _date = value; }
+    } 
+
+     public string Category
+    {
+        get { return _category; }
+        set { _category = value; }
     }
 
-    public static decimal CalculateTotalExpenses(List<Expense> expenses)
+    public bool IsIncome
     {
-        decimal total = 0;
-        foreach (Expense expense in expenses)
-        {
-            total += expense.Amount;
-        }
-        return total;
+        get { return _isIncome; }
+        set { _isIncome = value; }
     }
-
-    public static List<Expense> FilterExpensesByDateRange(List<Expense> expenses, DateTime startDate, DateTime endDate)
+   
+     public void AddExpense(decimal amount)
     {
-        List<Expense> filteredExpenses = new List<Expense>();
-        foreach (Expense expense in expenses)
-        {
-            if (expense._date >= startDate && expense._date <= endDate)
-            {
-                filteredExpenses.Add(expense);
-            }
-        }
-        return filteredExpenses;
-    }
-
-    public static void SortExpensesByAmount(List<Expense> expenses)
-    {
-        expenses.Sort((x, y) => x._amount.CompareTo(y._amount));
+        _amount += amount;
     }
 }
