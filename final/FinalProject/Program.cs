@@ -25,9 +25,7 @@ class Program
             "Subscriptions",
             "Loan Payments",
             "Taxes"
-        };
-          
-          
+        };          
         
         bool exit = false;
 

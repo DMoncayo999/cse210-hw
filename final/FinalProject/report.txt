@@ -2,3 +2,4 @@ Type: Recurring Income, Category: Business, Description: Salary, Amount: $4,000.
 Type: Expense, Category: Entertainment, Description: parque de diversiones, Amount: $50.00, Date: 04/05/2024
 Type: Income, Category: business, Description: wages, Amount: $2,000.00, Date: 04/03/2024, Frequency: biweekly
 Type: Fixed Expense, Category: Insurance, Description: insurance, Amount: $140.00, Date: 04/02/2024
+Type: Expense, Category: Entertainment, Description: disney world, Amount: $500.00, Date: 04/05/2024
